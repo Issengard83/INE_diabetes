@@ -76,7 +76,7 @@ with(DF, kruskal.test(HbAc1_final_mod, Drogas_hpo))
 ### Modelo regresión lineal----
 DF1 = DF %>% filter(!is.na(Sit_conyugal) & !is.na(Fuma_inicial))
 
-fit = glmmTMB(HbAc1_final_mod ~ Grupo + Sit_conyugal + Fuma_inicial + (1|Grupo),
+fit = glmmTMB(HbAc1_final_mod ~ Grupo + Sit_conyugal + Fuma_inicial,
               data = DF1)
 summary(fit)
 
@@ -126,8 +126,8 @@ descrTable(Act_fisica_final ~ Grupo + Rango_edad + Sexo + Nivel_ed +
 ### Modelo full----
 DF1 = DF %>% filter(!is.na(Act_fisica_final) & !is.na(Enf_coronaria))
 
-fit1 = glmmTMB(Act_fis_final ~ Grupo + Sexo + Enf_coronaria + Insu_rapida +
-                 (1|Grupo), data = DF1, family = binomial)
+fit1 = glmmTMB(Act_fis_final ~ Grupo + Sexo + Enf_coronaria + Insu_rapida,
+               data = DF1, family = binomial)
 
 summary(fit1)
 
@@ -152,8 +152,7 @@ descrTable(Fuma_final ~ Grupo + Rango_edad + Sexo + Nivel_ed +
 ### Modelo full----
 DF1 = DF %>% filter(!is.na(Fuma_final2) & !is.na(Drogas_hpo))
 
-fit1 = glmmTMB(Fuma_final2 ~ Grupo + Drogas_hpo +
-                 (1|Grupo), data = DF1, family = binomial)
+fit1 = glmmTMB(Fuma_final2 ~ Grupo + Drogas_hpo, data = DF1, family = binomial)
 
 summary(fit1)
 
