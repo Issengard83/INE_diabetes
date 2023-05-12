@@ -163,3 +163,56 @@ fit1 = update(fit1, ~.-Grupo)
 
 drop1(fit1)
 summary(fit1)
+
+#### Modelo longitudinal (HbA1c antes y después) ####
+DF1 = DF %>% pivot_longer(cols = c("HbAc1_inicial","HbAc1_final_mod"),
+                          names_to = c("x", "Momento"),
+                          names_sep = "\\_",
+                          values_to = "HbAc1") %>% 
+  filter(!is.na(Vive_solo) & !is.na(Viene_acomp) & !is.na(ACV) & !is.na(Enf_coronaria))
+
+# Modelo full----
+fit = glmmTMB(HbAc1 ~ Grupo + Rango_edad + Sexo + Nivel_ed +
+                Vive_solo + Viene_acomp + Rango_IMC + 
+                Fuma_inicial + HTA + 
+                ACV + Enf_coronaria + Insu_rapida + 
+                N_drogas_hpo + (1|ID), data = DF1)
+
+summary(fit)
+
+# Selección modelos----
+drop1(fit)
+
+fit1 = update(fit,~.-Rango_IMC)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-Rango_edad)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-Nivel_ed)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-ACV)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-Grupo)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-Sexo)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-Viene_acomp)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-N_drogas_hpo)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-HTA)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-Enf_coronaria)
+drop1(fit1)
+
+fit1 = update(fit1, ~.-Fuma_inicial)
+drop1(fit1)
+summary(fit1)
